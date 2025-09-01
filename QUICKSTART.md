@@ -4,7 +4,7 @@
 
 **Not all PDFs can be unlocked without the password!** The script automatically detects:
 
-- **🔒 Strong Encryption (R=3, AES-256)**: **Cannot be bypassed** - requires actual password
+- **🔒 Strong Encryption (R=3, AES-256)**: **Cannot be bypassed** - requires actual password (minor chance with brute force)
 - **🔓 Standard/Weak Encryption (R=1-2)**: **Can attempt bypass** - good success rate
 - **🔓 No Encryption**: **Already accessible** - no action needed
 
@@ -16,10 +16,10 @@
    ./setup.sh
    ```
 
-2. **Install qpdf** (for best results):
+2. **Install command-line tools** (for best results):
    ```bash
-   brew install qpdf  # macOS
-   sudo apt-get install qpdf  # Ubuntu/Debian
+   brew install qpdf pdfcrack  # macOS
+   sudo apt-get install qpdf pdfcrack  # Ubuntu/Debian
    ```
 
 3. **Use**:
@@ -35,8 +35,9 @@
    setup.bat
    ```
 
-2. **Install qpdf** (optional):
-   - Download from https://github.com/qpdf/qpdf/releases
+2. **Install command-line tools** (optional):
+   - Download qpdf from https://github.com/qpdf/qpdf/releases
+   - Download pdfcrack from https://sourceforge.net/projects/pdfcrack/
    - Add to PATH for best results
 
 3. **Use**:
@@ -69,6 +70,7 @@
 - **Encryption analysis** tells you immediately if unlocking is possible
 - **Multiple unlocking methods** will be tried for maximum success:
   - **qpdf** (command-line tool - most reliable)
+  - **pdfcrack** (brute force password cracking)
   - **PyMuPDF** (best content preservation)
   - **pikepdf** (most powerful)
   - **PyPDF2** (basic fallback)
@@ -110,8 +112,9 @@ Processing: secure.pdf
 
 ## 🔓 Why Multiple Methods?
 
-The script uses **4 different approaches** because:
+The script uses **5 different approaches** because:
 - **qpdf**: Best for weak/standard encryption (command-line tool)
+- **pdfcrack**: Brute force password cracking (can be time-consuming)
 - **PyMuPDF**: Best for content preservation and quality
 - **pikepdf**: Most powerful for complex PDFs
 - **PyPDF2**: Reliable fallback for basic protection
@@ -121,7 +124,7 @@ This gives you the **highest possible success rate** for PDFs that can actually 
 ## 💡 When Unlocking Fails
 
 If unlocking fails, it's usually because:
-1. **Strong Encryption (R=3)**: **Impossible to bypass** - you need the password
+1. **Strong Encryption (R=3)**: **Nearly impossible to bypass** - you need the password (minor chance with brute force)
 2. **Corrupted PDF**: The file may be damaged
 3. **Unsupported Encryption**: Very rare
 

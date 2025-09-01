@@ -6,7 +6,7 @@ A Python script to unlock password-protected PDF files without requiring the pas
 
 **Not all PDFs can be unlocked without the password!** The script will automatically detect the encryption type and tell you if unlocking is possible:
 
-- **🔒 Strong Encryption (R=3, AES-256)**: **Cannot be bypassed** - requires the actual password
+- **🔒 Strong Encryption (R=3, AES-256)**: **Cannot be bypassed** - requires the actual password (minor chance with brute force)
 - **🔓 Standard Encryption (R=2, RC4-128)**: **Can attempt bypass** - good success rate
 - **🔓 Weak Encryption (R=1, RC4-40)**: **Can attempt bypass** - high success rate
 - **🔓 No Encryption**: **Already accessible** - no action needed
@@ -140,7 +140,7 @@ The script uses a **multi-method approach** with **encryption strength detection
 
 | Encryption Type | Success Rate | Notes |
 |----------------|--------------|-------|
-| **R=3 (AES-256)** | **0%** | Cannot be bypassed - requires password |
+| **R=3 (AES-256)** | **<1%** | Nearly impossible to bypass - requires password (minor chance with brute force) |
 | **R=2 (RC4-128)** | **70-80%** | Can attempt bypass with multiple methods |
 | **R=1 (RC4-40)** | **90-95%** | High success rate with any method |
 | **No Encryption** | **100%** | Already accessible |
@@ -199,7 +199,7 @@ PDF_Unlocker/
 
 If unlocking fails, it's usually because:
 
-1. **Strong Encryption (R=3)**: This is **impossible to bypass** - you need the password
+1. **Strong Encryption (R=3)**: This is **nearly impossible to bypass** - you need the password (minor chance with brute force)
 2. **Corrupted PDF**: The file may be damaged
 3. **Unsupported Encryption**: Very rare, but some custom encryption exists
 
@@ -212,7 +212,7 @@ If unlocking fails, it's usually because:
 - Processing documents where you have legal permission to remove protection
 - Educational and research purposes
 
-**The tool cannot bypass strong encryption (R=3)** - this is a security feature, not a bug!
+**The tool cannot bypass strong encryption (R=3)** - this is a security feature, not a bug! (though brute force may occasionally succeed)
 
 ## License
 
