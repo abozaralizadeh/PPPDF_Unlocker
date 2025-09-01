@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PDF Unlocker Script
+PDF Unlocker Script v1.1.0
 Removes password protection from PDF files using multiple methods including pdfcrack.
 Features password memory system for previously discovered passwords.
 """

@@ -13,7 +13,7 @@ A Python script to unlock password-protected PDF files without requiring the pas
 
 ## Features
 
-- 🔓 **Multiple Unlocking Methods**: Uses qpdf, PyMuPDF, pikepdf, and PyPDF2 for maximum success rate
+- 🔓 **Multiple Unlocking Methods**: Uses qpdf, PyMuPDF, pikepdf, PyPDF2, and pdfcrack for maximum success rate
 - 📁 **Batch Processing**: Process single files or entire directories
 - 🎯 **Custom Directories**: Custom input and output directories
 - 📊 **Progress Tracking**: Detailed progress information and reporting
@@ -21,13 +21,16 @@ A Python script to unlock password-protected PDF files without requiring the pas
 - 🚀 **Automatic Dependencies**: Installs required libraries automatically
 - ✅ **Verification**: Tests unlocked PDFs to ensure they're truly accessible
 - 🔍 **Encryption Analysis**: Automatically detects encryption strength and limitations
+- 💾 **Password Memory**: Remembers previously discovered passwords for faster processing
 
 ## Requirements
 
 - Python 3.6 or higher
 - **qpdf** (command-line tool) - automatically installed via Homebrew on macOS
+- **pdfcrack** (command-line tool) - for brute force password attempts
 - Multiple PDF libraries for robust unlocking:
   - **qpdf** (recommended - command-line tool)
+  - **pdfcrack** (brute force password cracking)
   - **PyMuPDF** (best content preservation)
   - **pikepdf** (most powerful)
   - **PyPDF2** (basic support)
@@ -52,16 +55,17 @@ A Python script to unlock password-protected PDF files without requiring the pas
    pip install -r requirements.txt
    ```
 
-4. **Install qpdf** (for best results):
+4. **Install command-line tools** (for best results):
    ```bash
    # macOS
-   brew install qpdf
+   brew install qpdf pdfcrack
    
    # Ubuntu/Debian
-   sudo apt-get install qpdf
+   sudo apt-get install qpdf pdfcrack
    
    # Windows
    # Download from https://github.com/qpdf/qpdf/releases
+   # Download pdfcrack from https://sourceforge.net/projects/pdfcrack/
    ```
 
 ## Usage
@@ -108,21 +112,26 @@ The script uses a **multi-method approach** with **encryption strength detection
    - Best success rate for weak/standard encryption
    - Cannot bypass strong encryption (R=3)
 
-3. **PyMuPDF Method** (Content Preservation):
+3. **pdfcrack Method** (Brute Force):
+   - Command-line tool for password cracking
+   - Attempts to find passwords through brute force
+   - Can be time-consuming but effective for weak passwords
+
+4. **PyMuPDF Method** (Content Preservation):
    - Tries empty password and common passwords
    - Best for preserving content quality
-   - Good fallback when qpdf fails
+   - Good fallback when other methods fail
 
-4. **pikepdf Method** (Powerful):
+5. **pikepdf Method** (Powerful):
    - Advanced PDF manipulation
    - Good for complex PDFs
    - Multiple password attempts
 
-5. **PyPDF2 Method** (Basic):
+6. **PyPDF2 Method** (Basic):
    - Traditional decryption approach
    - Fallback for simple password protection
 
-6. **Verification**:
+7. **Verification**:
    - Tests each unlocked PDF to ensure it's truly accessible
    - Checks for actual content (not just empty pages)
    - Removes failed attempts automatically
@@ -207,7 +216,27 @@ If unlocking fails, it's usually because:
 
 ## License
 
-This project is provided as-is for educational and legitimate use purposes.
+MIT License
+
+Copyright (c) 2024 Abozar Alizadeh
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ## Contributing
 
