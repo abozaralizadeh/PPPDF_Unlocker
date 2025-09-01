@@ -1,0 +1,5 @@
+.DS_Store
+password_memory.json
+*.pdf
+venv
+*.sav
