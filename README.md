@@ -1,4 +1,4 @@
-# PDF Unlocker
+# Password Protected PDF Unlocker
 
 A Python script to unlock password-protected PDF files without requiring the password. This tool can remove password protection from PDFs and save them as unlocked versions using multiple advanced methods.
 
