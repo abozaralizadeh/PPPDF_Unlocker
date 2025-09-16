@@ -6,9 +6,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to update to (e.g., 1.0.6)'
+        description: 'Version to update to (e.g., 1.0.0)'
         required: true
-        default: '1.0.5'
+        default: '1.0.0'
 
 permissions:
   contents: write
@@ -74,8 +74,8 @@ jobs:
         
     - name: Commit and push changes
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
+        git config --local user.email "abozar.alizadeh@gmail.com"
+        git config --local user.name "abozaralizadeh"
         git add homebrew-tap/Formula/upppdf.rb
         git commit -m "Update upppdf formula to ${{ steps.release.outputs.version }}"
-        git push
+        git push origin HEAD:master
