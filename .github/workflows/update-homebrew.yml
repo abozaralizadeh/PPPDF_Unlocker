@@ -4,6 +4,11 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to update to (e.g., 1.0.6)'
+        required: true
+        default: '1.0.5'
 
 permissions:
   contents: write
@@ -29,8 +34,16 @@ jobs:
     - name: Get release info
       id: release
       run: |
-        echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-        echo "url=https://github.com/abozaralizadeh/UPPPDF/archive/refs/tags/${{ github.ref_name }}.tar.gz" >> $GITHUB_OUTPUT
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          # Manual trigger - use input version
+          VERSION="${{ inputs.version }}"
+        else
+          # Release trigger - extract from tag
+          VERSION="${GITHUB_REF#refs/tags/v}"
+        fi
+        
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "url=https://github.com/abozaralizadeh/UPPPDF/archive/refs/tags/v$VERSION.tar.gz" >> $GITHUB_OUTPUT
         echo "Release URL: ${{ steps.release.outputs.url }}"
         
     - name: Calculate SHA256
