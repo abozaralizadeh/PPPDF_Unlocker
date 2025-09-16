@@ -4,17 +4,18 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: write
+
 jobs:
   update-homebrew:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout homebrew-tap
+    - name: Checkout main repository
       uses: actions/checkout@v4
       with:
-        repository: abozaralizadeh/homebrew-brew
-        token: ${{ secrets.GITHUB_TOKEN }}
-        path: homebrew-tap
+        fetch-depth: 0
         
     - name: Get release info
       id: release
@@ -30,15 +31,14 @@ jobs:
         
     - name: Update Formula
       run: |
-        cd homebrew-tap
-        sed -i "s|url \".*\"|url \"${{ steps.release.outputs.url }}\"|" Formula/upppdf.rb
-        sed -i "s|sha256 \".*\"|sha256 \"${{ steps.sha256.outputs.sha256 }}\"|" Formula/upppdf.rb
+        # Update the formula file in the main repository
+        sed -i "s|url \".*\"|url \"${{ steps.release.outputs.url }}\"|" homebrew-tap/Formula/upppdf.rb
+        sed -i "s|sha256 \".*\"|sha256 \"${{ steps.sha256.outputs.sha256 }}\"|" homebrew-tap/Formula/upppdf.rb
         
-    - name: Commit and push
+    - name: Commit and push changes
       run: |
-        cd homebrew-tap
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add Formula/upppdf.rb
-        git commit -m "Update upppdf to ${{ steps.release.outputs.version }}"
+        git add homebrew-tap/Formula/upppdf.rb
+        git commit -m "Update upppdf formula to ${{ steps.release.outputs.version }}"
         git push
