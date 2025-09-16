@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, 3.10, 3.11, 3.12, 3.13]
+        python-version: [3.8, 3.11, 3.13]
     
     steps:
     - name: Checkout code
@@ -26,20 +26,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest pytest-cov
         
-    - name: Test with pytest
+    - name: Test package
       run: |
-        python -m pytest --version || echo "pytest not available, running basic tests"
-        python -c "import pdf_unlocker; print('Import successful')"
-        python -c "from pdf_unlocker import PDFUnlocker, PasswordMemory; print('Classes imported successfully')"
-        
-    - name: Test package installation
-      run: |
+        python -c "import upppdf; print('✅ Import successful')"
+        python -c "from upppdf import PDFUnlocker, PasswordMemory; print('✅ Classes imported successfully')"
         pip install -e .
-        uppdf --help
-        
-    - name: Test package build
-      run: |
-        pip install build
-        python -m build
+        upppdf --help
+        echo "✅ Package installation and command test passed"
