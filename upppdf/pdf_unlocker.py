@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PDF Unlocker Script v1.1.1
+PDF Unlocker Script v1.0.0
 Removes password protection from PDF files using multiple methods including pdfcrack.
 Features password memory system for previously discovered passwords.
 """
@@ -744,11 +744,11 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python pdf_unlocker.py                    # Unlock all PDFs in PDFs folder
-  python pdf_unlocker.py -f specific.pdf   # Unlock a specific PDF file
-  python pdf_unlocker.py -i /path/to/pdfs  # Use custom input directory
-  python pdf_unlocker.py -o /path/to/output # Use custom output directory
-  python pdf_unlocker.py --show-passwords  # Show remembered passwords
+  upppdf                    # Unlock all PDFs in PDFs folder
+  upppdf -f specific.pdf   # Unlock a specific PDF file
+  upppdf -i /path/to/pdfs  # Use custom input directory
+  upppdf -o /path/to/output # Use custom output directory
+  upppdf --show-passwords  # Show remembered passwords
 
 Features:
   - Remembers passwords for future use

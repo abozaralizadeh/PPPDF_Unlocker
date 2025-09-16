@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+include requirements.txt
+include QUICKSTART.md
+include *.py
+recursive-include PDFs *.txt
+recursive-include Unlocked_PDFs *.txt

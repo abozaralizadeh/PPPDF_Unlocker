@@ -1,6 +1,22 @@
-# PDF Unlocker
+# upppdf - Unlock Password Protected PDF
 
-A Python script to unlock password-protected PDF files without requiring the password. This tool can remove password protection from PDFs and save them as unlocked versions using multiple advanced methods.
+**Pronunciation:** u triple p df
+
+A Python package to unlock password-protected PDF files without requiring the password. This tool can remove password protection from PDFs and save them as unlocked versions using multiple advanced methods.
+
+## Installation
+
+### From PyPI (Recommended)
+```bash
+pip install upppdf
+```
+
+### From Source
+```bash
+git clone https://github.com/abozar/PDF_Unlocker.git
+cd PDF_Unlocker
+pip install -e .
+```
 
 ## ⚠️ Important: Encryption Limitations
 
@@ -74,19 +90,19 @@ A Python script to unlock password-protected PDF files without requiring the pas
 
 Unlock all PDFs in the default `PDFs` folder:
 ```bash
-python pdf_unlocker.py
+upppdf
 ```
 
 ### Advanced Usage
 
 Unlock a specific PDF file:
 ```bash
-python pdf_unlocker.py -f "filename.pdf"
+upppdf -f "filename.pdf"
 ```
 
 Use custom input and output directories:
 ```bash
-python pdf_unlocker.py -i "/path/to/pdfs" -o "/path/to/output"
+upppdf -i "/path/to/pdfs" -o "/path/to/output"
 ```
 
 ### Command Line Options

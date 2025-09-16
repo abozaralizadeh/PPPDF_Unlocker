@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "upppdf"
+version = "1.0.0"
+authors = [
+    {name = "Abozar Alizadeh", email = "abozar.alizadeh@gmail.com"},
+]
+description = "Unlock password protected PDF files using multiple methods"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OSI Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business",
+    "Topic :: Utilities",
+]
+keywords = ["pdf", "unlock", "password", "decrypt", "security"]
+dependencies = [
+    "PyPDF2>=3.0.0",
+    "pikepdf>=9.0.0",
+    "pymupdf>=1.26.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/abozar/PDF_Unlocker"
+Repository = "https://github.com/abozar/PDF_Unlocker"
+Issues = "https://github.com/abozar/PDF_Unlocker/issues"
+Documentation = "https://github.com/abozar/PDF_Unlocker#readme"
+
+[project.scripts]
+upppdf = "upppdf.pdf_unlocker:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["*"]
