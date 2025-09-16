@@ -1,6 +1,6 @@
 # upppdf - Unlock Password Protected PDF
 
-**Pronunciation:** u triple p df
+**Pronunciation:** U triple P D F
 
 A Python package to unlock password-protected PDF files without requiring the password. This tool can remove password protection from PDFs and save them as unlocked versions using multiple advanced methods.
 

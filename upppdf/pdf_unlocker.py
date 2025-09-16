@@ -110,6 +110,13 @@ class PDFUnlocker:
         self.output_dir.mkdir(exist_ok=True)
         self.password_memory = PasswordMemory()
         
+        # Check if pdfcrack is available
+        try:
+            subprocess.run(['pdfcrack', '--version'], capture_output=True, check=True)
+            self.pdfcrack_available = True
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            self.pdfcrack_available = False
+        
     def check_tools_available(self) -> dict:
         """Check which tools are available for PDF unlocking."""
         tools = {}
@@ -563,6 +570,98 @@ class PDFUnlocker:
         except Exception as e:
             return False, f"Verification error: {str(e)}"
     
+    def unlock_pdf_file(self, pdf_path: Path, output_path: Path) -> bool:
+        """
+        Unlock a single PDF file using multiple methods with custom output path.
+        
+        Args:
+            pdf_path: Path to the password-protected PDF
+            output_path: Path where the unlocked PDF should be saved
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        print(f"Processing: {pdf_path.name}")
+        
+        # First, test if the PDF is already accessible
+        is_accessible, message = self.test_pdf_access(pdf_path)
+        if is_accessible:
+            print(f"  - {message}")
+            # If already accessible, just copy it
+            shutil.copy2(pdf_path, output_path)
+            print(f"  - PDF is already accessible, copied to: {output_path.name}")
+            return True
+        
+        print(f"  - {message}")
+        print(f"  - Attempting to unlock...")
+        
+        # 1. Try remembered passwords first
+        success, password = self.unlock_with_remembered_password(pdf_path, output_path)
+        if success:
+            print(f"    - ✅ Successfully unlocked with remembered password: '{password}'")
+            is_valid, verify_message = self.verify_unlocked_pdf(output_path)
+            if is_valid:
+                print(f"  - ✅ Successfully unlocked and verified: {output_path.name}")
+                print(f"    - {verify_message}")
+                return True
+            else:
+                print(f"    - Warning: Unlocked PDF verification failed: {verify_message}")
+                if output_path.exists():
+                    output_path.unlink()
+        
+        # 2. Try known passwords
+        success, password = self.unlock_with_known_passwords(pdf_path, output_path)
+        if success:
+            print(f"    - ✅ Successfully unlocked with common password: '{password}'")
+            is_valid, verify_message = self.verify_unlocked_pdf(output_path)
+            if is_valid:
+                print(f"  - ✅ Successfully unlocked and verified: {output_path.name}")
+                print(f"    - {verify_message}")
+                return True
+            else:
+                print(f"    - Warning: Unlocked PDF verification failed: {verify_message}")
+                if output_path.exists():
+                    output_path.unlink()
+        
+        # 3. Try fast PDF library methods first
+        methods = [
+            ("qpdf", self.unlock_with_qpdf),
+            ("PyMuPDF", self.unlock_with_pymupdf),
+            ("pikepdf", self.unlock_with_pikepdf),
+            ("PyPDF2", self.unlock_with_pypdf2),
+        ]
+        
+        for method_name, method_func in methods:
+            if method_func(pdf_path, output_path):
+                print(f"    - ✅ Successfully unlocked with {method_name}")
+                is_valid, verify_message = self.verify_unlocked_pdf(output_path)
+                if is_valid:
+                    print(f"  - ✅ Successfully unlocked and verified: {output_path.name}")
+                    print(f"    - {verify_message}")
+                    return True
+                else:
+                    print(f"    - Warning: Unlocked PDF verification failed: {verify_message}")
+                    if output_path.exists():
+                        output_path.unlink()
+        
+        # 4. Try pdfcrack last (slowest method)
+        if self.pdfcrack_available:
+            success, password = self.unlock_with_pdfcrack(pdf_path, output_path)
+            if success:
+                print(f"    - ✅ Successfully unlocked with pdfcrack: '{password}'")
+                is_valid, verify_message = self.verify_unlocked_pdf(output_path)
+                if is_valid:
+                    print(f"  - ✅ Successfully unlocked and verified: {output_path.name}")
+                    print(f"    - {verify_message}")
+                    return True
+                else:
+                    print(f"    - Warning: Unlocked PDF verification failed: {verify_message}")
+                    if output_path.exists():
+                        output_path.unlink()
+        
+        print(f"  - ❌ All unlocking methods failed")
+        return False
+
     def unlock_pdf(self, pdf_path: Path) -> bool:
         """
         Unlock a single PDF file using multiple methods.
@@ -619,7 +718,7 @@ class PDFUnlocker:
                 if output_path.exists():
                     output_path.unlink()
         
-        # 3. Try other methods
+        # 3. Try fast PDF library methods first
         methods = []
         
         # Try qpdf first if available
@@ -658,7 +757,7 @@ class PDFUnlocker:
             else:
                 print(f"    - {method_name} failed")
 
-        # 4. Try pdfcrack (brute force)
+        # 4. Try pdfcrack last (slowest method)
         success, password = self.unlock_with_pdfcrack(pdf_path, output_path)
         if success:
             print(f"    - ✅ Successfully unlocked with pdfcrack password: '{password}'")
@@ -744,35 +843,42 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  upppdf                    # Unlock all PDFs in PDFs folder
-  upppdf -f specific.pdf   # Unlock a specific PDF file
-  upppdf -i /path/to/pdfs  # Use custom input directory
-  upppdf -o /path/to/output # Use custom output directory
-  upppdf --show-passwords  # Show remembered passwords
+  upppdf                           # Unlock all PDFs in current directory
+  upppdf -f document.pdf          # Unlock a specific PDF file (saves to current directory)
+  upppdf -f /path/to/file.pdf     # Unlock PDF from any path
+  upppdf -o /path/to/output       # Save unlocked PDFs to custom directory
+  upppdf --output-name custom.pdf # Use custom name for output file
+  upppdf --show-passwords         # Show remembered passwords
 
 Features:
   - Remembers passwords for future use
   - Uses pdfcrack for brute force attacks
   - Multiple fallback methods
   - Password verification and content checking
+  - Works from any directory (saves to current directory by default)
         """
     )
     
     parser.add_argument(
         '-f', '--file',
-        help='Specific PDF file to unlock (must be in input directory)'
+        help='Specific PDF file to unlock (can be any path)'
     )
     
     parser.add_argument(
         '-i', '--input-dir',
-        default='PDFs',
-        help='Input directory containing PDFs (default: PDFs)'
+        default='.',
+        help='Input directory containing PDFs (default: current directory)'
     )
     
     parser.add_argument(
         '-o', '--output-dir',
-        default='Unlocked_PDFs',
-        help='Output directory for unlocked PDFs (default: Unlocked_PDFs)'
+        default='.',
+        help='Output directory for unlocked PDFs (default: current directory)'
+    )
+    
+    parser.add_argument(
+        '--output-name',
+        help='Custom name for output file (default: adds "unlocked_" prefix)'
     )
     
     parser.add_argument(
@@ -783,24 +889,62 @@ Features:
     
     args = parser.parse_args()
     
-    # Create unlocker instance
-    unlocker = PDFUnlocker(args.input_dir, args.output_dir)
-    
     try:
         if args.show_passwords:
-            unlocker.show_password_memory()
+            # Show passwords from memory file in current directory
+            memory = PasswordMemory()
+            memory.show_password_memory()
             return
         
         if args.file:
-            # Unlock specific file
-            success = unlocker.unlock_specific_pdf(args.file)
-            if success:
-                print(f"\n✅ Successfully unlocked: {args.file}")
+            # Unlock specific file - handle absolute/relative paths
+            input_file = Path(args.file)
+            if not input_file.is_absolute():
+                input_file = Path.cwd() / input_file
+            
+            if not input_file.exists():
+                print(f"❌ File not found: {input_file}")
+                sys.exit(1)
+            
+            # Determine output path
+            if args.output_name:
+                output_file = Path(args.output_dir) / args.output_name
             else:
-                print(f"\n❌ Failed to unlock: {args.file}")
+                # Add "unlocked_" prefix to filename
+                output_file = Path(args.output_dir) / f"unlocked_{input_file.name}"
+            
+            # Create output directory if it doesn't exist
+            output_file.parent.mkdir(parents=True, exist_ok=True)
+            
+            # Create unlocker instance for this specific file
+            unlocker = PDFUnlocker(str(input_file.parent), str(output_file.parent))
+            # Set the password memory to look in current directory
+            unlocker.password_memory = PasswordMemory("password_memory.json")
+            
+            # Unlock the specific file
+            success = unlocker.unlock_pdf_file(input_file, output_file)
+            if success:
+                print(f"\n✅ Successfully unlocked: {input_file}")
+                print(f"📁 Saved to: {output_file}")
+            else:
+                print(f"\n❌ Failed to unlock: {input_file}")
                 print(f"\n💡 The script will remember any passwords found for future attempts.")
                 sys.exit(1)
         else:
+            # Unlock all PDFs in input directory
+            input_dir = Path(args.input_dir)
+            if not input_dir.is_absolute():
+                input_dir = Path.cwd() / input_dir
+            
+            if not input_dir.exists():
+                print(f"❌ Input directory not found: {input_dir}")
+                sys.exit(1)
+            
+            # Create unlocker instance
+            unlocker = PDFUnlocker(str(input_dir), str(args.output_dir))
+            # Set the password memory to look in current directory
+            unlocker.password_memory = PasswordMemory("password_memory.json")
+            
             # Unlock all PDFs
             successful, total = unlocker.unlock_all_pdfs()
             print("-" * 50)
