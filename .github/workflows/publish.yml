@@ -83,4 +83,4 @@ jobs:
           --notes-file release_notes.md \
           dist/*.whl dist/*.tar.gz
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
