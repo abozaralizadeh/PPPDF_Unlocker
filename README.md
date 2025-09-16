@@ -11,12 +11,26 @@ A Python package to unlock password-protected PDF files without requiring the pa
 pip install upppdf
 ```
 
+### From Homebrew (macOS)
+```bash
+brew tap abozaralizadeh/brew
+brew install upppdf
+```
+
 ### From Source
 ```bash
 git clone https://github.com/abozar/PDF_Unlocker.git
 cd PDF_Unlocker
 pip install -e .
 ```
+
+### Installation Methods Comparison
+
+| Method | Platform | Dependencies | Command Available |
+|--------|----------|--------------|-------------------|
+| **PyPI** | All | Auto-installed | `upppdf` |
+| **Homebrew** | macOS | Auto-installed | `upppdf` |
+| **Source** | All | Manual | `upppdf` |
 
 ## ⚠️ Important: Encryption Limitations
 
@@ -253,6 +267,19 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Homebrew Tap
+
+This package is also available as a Homebrew formula in the `abozaralizadeh/brew` tap:
+
+```bash
+brew tap abozaralizadeh/brew
+brew install upppdf
+```
+
+The Homebrew formula automatically installs all dependencies and makes the `upppdf` command available system-wide.
+
+For detailed setup instructions, see [HOMEBREW_SETUP.md](HOMEBREW_SETUP.md).
 
 ## Contributing
 

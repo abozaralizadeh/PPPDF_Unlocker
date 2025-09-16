@@ -134,4 +134,7 @@ savedstate.sav
 *.pdf
 !PDFs/*.txt
 !Unlocked_PDFs/*.txt
+
+# Homebrew tap (keep in main repo for reference)
+# homebrew-tap/
 .DS_Store
