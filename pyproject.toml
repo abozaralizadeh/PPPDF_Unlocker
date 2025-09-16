@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "upppdf"
-version = "1.0.0"
+version = "1.0.1"
 authors = [
     {name = "Abozar Alizadeh", email = "abozar.alizadeh@gmail.com"},
 ]
@@ -31,7 +31,7 @@ keywords = ["pdf", "unlock", "password", "decrypt", "security"]
 dependencies = [
     "PyPDF2>=3.0.0",
     "pikepdf>=9.0.0",
-    "pymupdf>=1.26.0",
+    "pymupdf>=1.24.0",
 ]
 
 [project.urls]
