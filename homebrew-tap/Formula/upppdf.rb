@@ -1,8 +1,8 @@
 class Upppdf < Formula
   desc "Unlock password protected PDF files using multiple methods"
   homepage "https://github.com/abozaralizadeh/UPPPDF"
-  url "https://github.com/abozaralizadeh/UPPPDF/archive/refs/tags/v1.0.5.tar.gz"
-  sha256 "ea2a33cda49c0abf595d72350a16b5f8a28ad36df6364caeac6831392e3bd08f"
+  url "https://github.com/abozaralizadeh/UPPPDF/archive/refs/tags/master.tar.gz"
+  sha256 "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed"
   license "MIT"
 
   head "https://github.com/abozaralizadeh/UPPPDF.git", branch: "master"
