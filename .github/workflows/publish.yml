@@ -6,6 +6,10 @@ on:
       - 'v*'
   workflow_dispatch:
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
@@ -13,6 +17,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
       
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -40,13 +46,41 @@ jobs:
         twine upload dist/*
 
     - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ github.ref_name }}
-        name: Release ${{ github.ref_name }}
-        draft: false
-        prerelease: false
-        generate_release_notes: true
-        files: dist/*
+      run: |
+        # Create release notes
+        cat > release_notes.md << 'EOF'
+        ## Changes in ${{ github.ref_name }}
+        
+        This release includes:
+        - PDF unlocking functionality using multiple methods
+        - Password memory system for faster processing
+        - Command-line interface with flexible options
+        - Support for batch processing and custom directories
+        
+        ## Installation
+        
+        ```bash
+        pip install upppdf
+        ```
+        
+        ## Usage
+        
+        ```bash
+        # Unlock all PDFs in current directory
+        upppdf
+        
+        # Unlock specific file
+        upppdf -f document.pdf
+        
+        # Show help
+        upppdf --help
+        ```
+        EOF
+        
+        # Create the release
+        gh release create ${{ github.ref_name }} \
+          --title "Release ${{ github.ref_name }}" \
+          --notes-file release_notes.md \
+          dist/*.whl dist/*.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
