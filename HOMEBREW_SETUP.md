@@ -19,7 +19,7 @@ This document explains how to set up the Homebrew tap for the `upppdf` package.
 3. **Copy the formula files:**
    ```bash
    # Copy from the main project
-   cp -r ../PDF_Unlocker/homebrew-tap/* .
+   cp -r ../UPPPDF/homebrew-tap/* .
    ```
 
 4. **Commit and push:**

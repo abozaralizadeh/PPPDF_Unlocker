@@ -18,13 +18,13 @@ def read_requirements():
 
 setup(
     name="upppdf",
-    version="1.0.3",
+    version="1.0.4",
     author="Abozar Alizadeh",
     author_email="abozar.alizadeh@gmail.com",
     description="Unlock password protected PDF files using multiple methods",
     long_description=read_readme(),
     long_description_content_type="text/markdown",
-    url="https://github.com/abozar/PDF_Unlocker",
+    url="https://github.com/abozaralizadeh/UPPPDF",
     packages=find_packages(),
     py_modules=["pdf_unlocker"],
     classifiers=[
@@ -51,8 +51,8 @@ setup(
     },
     keywords="pdf, unlock, password, decrypt, security",
     project_urls={
-        "Bug Reports": "https://github.com/abozar/PDF_Unlocker/issues",
-        "Source": "https://github.com/abozar/PDF_Unlocker",
-        "Documentation": "https://github.com/abozar/PDF_Unlocker#readme",
+        "Bug Reports": "https://github.com/abozaralizadeh/UPPPDF/issues",
+        "Source": "https://github.com/abozaralizadeh/UPPPDF",
+        "Documentation": "https://github.com/abozaralizadeh/UPPPDF#readme",
     },
 )

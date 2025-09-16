@@ -20,7 +20,7 @@ jobs:
       id: release
       run: |
         echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-        echo "url=https://github.com/${{ github.repository }}/archive/refs/tags/${{ github.ref_name }}.tar.gz" >> $GITHUB_OUTPUT
+        echo "url=https://github.com/abozaralizadeh/UPPPDF/archive/refs/tags/${{ github.ref_name }}.tar.gz" >> $GITHUB_OUTPUT
         
     - name: Calculate SHA256
       id: sha256

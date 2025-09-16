@@ -19,8 +19,8 @@ brew install upppdf
 
 ### From Source
 ```bash
-git clone https://github.com/abozar/PDF_Unlocker.git
-cd PDF_Unlocker
+git clone https://github.com/abozaralizadeh/UPPPDF.git
+cd UPPPDF
 pip install -e .
 ```
 
@@ -186,7 +186,7 @@ The script uses a **multi-method approach** with **encryption strength detection
 ## File Structure
 
 ```
-PDF_Unlocker/
+UPPPDF/
 ├── pdf_unlocker.py          # Main script with encryption detection
 ├── requirements.txt          # Python dependencies
 ├── README.md               # This file

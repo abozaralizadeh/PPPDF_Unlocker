@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "upppdf"
-version = "1.0.3"
+version = "1.0.4"
 authors = [
     {name = "Abozar Alizadeh", email = "abozar.alizadeh@gmail.com"},
 ]
@@ -35,10 +35,10 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/abozar/PDF_Unlocker"
-Repository = "https://github.com/abozar/PDF_Unlocker"
-Issues = "https://github.com/abozar/PDF_Unlocker/issues"
-Documentation = "https://github.com/abozar/PDF_Unlocker#readme"
+Homepage = "https://github.com/abozaralizadeh/UPPPDF"
+Repository = "https://github.com/abozaralizadeh/UPPPDF"
+Issues = "https://github.com/abozaralizadeh/UPPPDF/issues"
+Documentation = "https://github.com/abozaralizadeh/UPPPDF#readme"
 
 [project.scripts]
 upppdf = "upppdf.pdf_unlocker:main"
