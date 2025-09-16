@@ -675,7 +675,7 @@ class PDFUnlocker:
         print(f"  - ❌ All unlocking methods failed")
         return False
     
-    def unlock_all_pdfs(self) -> tuple[int, int]:
+    def unlock_all_pdfs(self) -> Tuple[int, int]:
         """
         Unlock all PDF files in the input directory.
         

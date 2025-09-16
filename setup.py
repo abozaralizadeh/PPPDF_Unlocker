@@ -18,7 +18,7 @@ def read_requirements():
 
 setup(
     name="upppdf",
-    version="1.0.1",
+    version="1.0.2",
     author="Abozar Alizadeh",
     author_email="abozar.alizadeh@gmail.com",
     description="Unlock password protected PDF files using multiple methods",

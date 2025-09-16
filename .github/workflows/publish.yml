@@ -39,14 +39,5 @@ jobs:
       run: |
         twine upload dist/*
 
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ github.ref_name }}
-        name: Release ${{ github.ref_name }}
-        draft: false
-        prerelease: false
-        generate_release_notes: true
-        files: dist/*
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # GitHub Release step removed - PyPI publication is the main goal
+    # You can manually create releases on GitHub if needed
